@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>3001/b.html</title>
+  </head>
+  <body>
+    <script>
+      var message = "hello world from hash 😶";
+      if (location.hash === "#getdata") {
+        let iframe = document.createElement("iframe");
+        iframe.style.display = "none";
+        // 将非同域页面作为自身子页面
+        // 将数据作为hash值传递给子页面
+        iframe.src = "http://localhost:3000/c.html#" + message;
+        document.body.appendChild(iframe);
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>3000/a.html</title>
+  </head>
+  <body>
+    <button>点击创建iframe</button>
+    <p>当前正处于3000端口，点击后创建跨域的隐藏iframe，同时传递hash值</p>
+  </body>
+  <script>
+    let btn = document.getElementsByTagName("button")[0];
+    let text = document.getElementsByTagName("p")[0];
+
+    btn.addEventListener("click", () => {
+      let url = "http://localhost:3001/b.html#getdata";
+      addIframeTag(url);
+    });
+    function addIframeTag(src) {
+      const iframe = document.createElement("iframe");
+      iframe.src = src;
+      iframe.style.display = "none";
+      document.body.appendChild(iframe);
+    }
+    // 对于主页面hash变换的监听不能使用onhashchange，后者通常用于iframe
+    // 此处通过计时器实现
+    function checkHash() {
+      if (location.hash) {
+        let data = location.hash.substring(1); // 去除'#'号
+        text.innerHTML = decodeURI(data); // hash传参需要经过解码
+      }
+    }
+    setInterval(checkHash, 2000); // 每隔2s监听hash值是否发生变化
+  </script>
+</html>

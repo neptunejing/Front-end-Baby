@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>3000/a.html</title>
+  </head>
+  <body>
+    <button>点击向3001/b.com发送消息</button>
+    <p>当前处在3000端口</p>
+  </body>
+  <iframe id="child" src="http://localhost:3001/b.html"></iframe>
+  <script>
+    let btn = document.getElementsByTagName("button")[0];
+    let text = document.getElementsByTagName("p")[0];
+    let targetOrigin = "http://localhost:3001";
+    let iframeWin = document.getElementById("child").contentWindow;
+    btn.addEventListener("click", () => {
+      iframeWin.postMessage("来自3000端口的问候", targetOrigin);
+    });
+    function listen(event) {
+      if (event.origin !== targetOrigin) {
+        return false;
+      }
+      let data = event.data;
+      text.innerHTML = data;
+    }
+    window.addEventListener("message", listen);
+  </script>
+</html>

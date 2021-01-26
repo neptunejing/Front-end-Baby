@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>3000/a.html</title>
+  </head>
+  <body>
+    <button>点击创建iframe</button>
+    <p>当前处于3000端口</p>
+  </body>
+  <script>
+    let btn = document.getElementsByTagName("button")[0];
+    let text = document.getElementsByTagName("p")[0];
+
+    let isFirst = true;
+    btn.addEventListener("click", () => {
+      let url = "http://localhost:3001/b.html#getdata";
+      addIframeTag(url);
+    });
+
+    function addIframeTag(src) {
+      let iframe = document.createElement("iframe");
+      iframe.src = src;
+      iframe.style.display = "none";
+      iframe.addEventListener("load", () => loadCallback(iframe));
+      document.body.appendChild(iframe);
+    }
+
+    function loadCallback(iframe) {
+      // 跨源iframe首次加载后，修改src，指向同源页面，进行第二次加载
+      if (isFirst) {
+        iframe.src = "http://localhost:3000/c.html";
+        isFirst = false;
+      } else {
+        // 第二次同源iframe加载，此时的window.name在跨域时被修改，即有效数据
+        text.innerHTML = iframe.contentWindow.name;
+        // 读取后可以关闭对中间页面的引用
+        document.body.removeChild(iframe);
+        iframe = null;
+        isFirst = true;
+      }
+    }
+  </script>
+</html>

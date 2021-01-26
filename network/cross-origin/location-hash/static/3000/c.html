@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>3000/c.html</title>
+  </head>
+  <script>
+    // 3000/c.html 属于 3001/b.html 的子窗口
+    // 3001/b.html 属于 3000/a.html 的子窗口
+    // 因此 parent.parent 实际指向 a.html
+    // 因为 parent.parent 和 c.html 同域，所以可以改变其 location.hash 的值
+    window.parent.parent.location.hash = window.location.hash.substring(1);
+  </script>
+</html>

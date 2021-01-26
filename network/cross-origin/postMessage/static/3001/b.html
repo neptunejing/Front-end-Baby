@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>3001/b.html</title>
+  </head>
+  <body>
+    <p>这里是3001端口</p>
+    <p><span></span></p>
+    <script>
+      // postMessage跨域适合于同一页面的不同窗体(iframe)，所以在3001这个页面不会收到信息。
+      let input = document.getElementsByTagName("input")[0];
+      let span = document.getElementsByTagName("span")[0];
+      let btn = document.getElementsByTagName("button")[0];
+      let targetOrigin = "http://localhost:3000";
+
+      function receiveMessage(event) {
+        if (event.origin !== targetOrigin) {
+          return false;
+        }
+        let data = event.data;
+        span.innerHTML = data;
+        window.parent.postMessage("这是来自3001的回复😀", targetOrigin);
+      }
+      window.addEventListener("message", receiveMessage, false);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JSONP-demo</title>
+  </head>
+  <body>
+    <button>通过JSONP跨域</button>
+    <p>当前正处于3000端口🔊</p>
+    <script>
+      var btn = document.getElementsByTagName("button")[0];
+      var text = document.getElementsByTagName("p")[0];
+      btn.addEventListener("click", function () {
+        let url = "http://localhost:3001";
+        addScriptTag(url, "jsonp");
+      });
+    </script>
+    <script>
+      function addScriptTag(src, cb) {
+        let script = document.createElement("script");
+        script.src = src + `?callback=${cb}`;
+        document.body.appendChild(script);
+      }
+      function jsonp(obj) {
+        let responseText='';
+        for(let item in obj){
+          responseText += obj[item];
+        }
+        text.innerHTML = responseText;
+      }
+    </script>
+  </body>
+</html>
