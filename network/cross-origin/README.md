@@ -39,7 +39,7 @@
 运行说明：执行 bat，访问 localhost:3000/a.html 即可
 
 - 请求端(a.html)：3000/a.html 创建 iframe 指向目标域 3001/b.html，添加对于 iframe 的 load 事件监听；第一次触发时说明已经完成跨域请求，修改 iframe.src 到同源文档 3000/c.html，这样的修改不会改变 window.name；第二次触发时，通过 iframe.contentWindow.name 获取窗口的 name
-- 响应端(b.html)：**3001/b.html 直接设置 window.name 为要传递的数据即可
+- 响应端(b.html)：3001/b.html 直接设置 window.name 为要传递的数据即可
 - 中介(c.html)：window.name **不会因为新文档的载入而改变**，由 b 载入 c 时，还是同一个窗口，则窗口名未改变，a 通过 iframe.contentWindow 获得同源文档 c 的窗口引用，即可获取窗口名
 
 总结：每个窗口都有自己独立的 window.name，无论重载的文档是否同源，只要窗口未销毁就会保持同一个window.name（别的文档未重写时）；但是 window.name 不支持跨域访问，需要让窗口先后被跨域修改 name，再重载同源文档后才能被最初请求的文档访问。利用 window.name 可以存储不超过2M的 string 数据
